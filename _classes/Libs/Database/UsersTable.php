@@ -31,7 +31,7 @@ class UsersTable {
             return false;
 
         } catch (PDOException $e) {
-            $e->getMessage();
+            echo $e->getMessage();
             exit();
         }
 
@@ -61,18 +61,51 @@ class UsersTable {
             
 
         } catch (PDOException $e) {
-            $e->getMessage();
+            echo $e->getMessage();
             exit();
         }
     }
 
     public function getBlogs() {
-        $statement = $this->db->prepare("SELECT * FROM posts");
-        $statement->execute();
+        try{
+            $statement = $this->db->prepare("SELECT * FROM posts");
+            $statement->execute();
 
-        $results = $statement->fetchAll();
+            $results = $statement->fetchAll();
 
-        return $results;
+            return $results;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
 
+    }
+
+    public function blogDetail($id) {
+        try {
+            $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
+            $statement->execute(['id' => $id]);
+            $result = $statement->fetch();
+
+            return $result;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function userRole() {
+        try {
+            $statement = $this->db->prepare("SELECT users.*,roles.id AS role FROM users LEFT JOIN roles ON users.role_id = roles.id");
+            $statement->execute();
+            $users = $statement->fetchAll();
+
+            return $users;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
     }
 }
