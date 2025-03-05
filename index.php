@@ -14,38 +14,77 @@ $results = $table->getBlogs();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
-    <link rel="stylesheet" href="./dist/css/bootstrap.min.css">
+    <title>Blogs</title>
+    <!-- bootstrap css1 js1 -->
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <!-- fontawsome cdn css1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- jquery ui css1 js1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"></script>
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="dist/css/style.css">
 </head>
-<body>
-    <nav class="bg-info fixed-top d-flex justify-content-between p-2" style="background-color: transparent;">
-        <div class="ms-5">
-            <h3>Blogs</h3>
-        </div>
-        <div class="d-flex justify-content-end">
-            <div>
-                <a href="#" class="nav-link d-block">
-                    <?php echo $auth->name ?>
-                </a>
-            </div>
-            <div class="mx-2">
-                <img src="img2.avif" class="rounded-circle" alt="User Image" width="30px">
-            </div>
-            <?php if($auth->role_id == 2):?>
-                <div class="me-2">
-                    <a href="admin/index.php" class="nav-link text-primary">Admin</a>
-                </div> 
-            <?php endif ?>
-        </div>
-    </nav>
 
-    <div class="container-fluid" style="margin: 100px 0;">
-        <div class="row my-4 px-5">
-            <?php foreach($results as $result): ?>
-                <div class="col-md-4 col-sm-6 mb-5">
+<body>
+
+    <!-- Start Navbar -->
+    <div class="wrappers">
+            <div id="nav" class="">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- start top side bar -->
+
+                        <div class="col-md-12 fixed-top topnavbars">
+                            <div class="row">
+                                <div class="navbar navbar-expand navbar-light justify-content-between bg-white shadow">
+                                    <h5 class="ms-5">Blogs</h5>
+                                    <!-- start notify & user account -->
+                                    <ul class="navbar-nav me-5">
+                                        <!-- user account -->
+                                        <li class="nav-item dropdown">
+                                            <a href="javascript:void(0);" class="dropdown-toggle"
+                                                data-bs-toggle="dropdown">
+                                                <span><?php echo $auth->name ?></span>
+                                                <img src="img/user.png" class="rounded-circle" width="25"
+                                                    alt="user img">
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <?php if($auth->role_id == 2):?>
+                                                    <a href="admin/index.php" class="dropdown-item">
+                                                    <i class="fa-solid fa-user text-muted me-2"></i>Admin
+                                                    </a>
+                                                <?php endif ?>
+                                                <a href="_actions/logout.php" class="dropdown-item">
+                                                    <i class="fa-solid fa-user text-muted me-2"></i>Logout
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <!-- user account -->
+
+                                    </ul>
+                                    <!-- end notify & user account -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- end top side bar -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- End Navbar -->
+
+    <!-- Start Content Area -->
+    <section style="margin: 80px 0;">
+        <div class="container">
+            <div class="row">
+                <?php foreach($results as $result): ?>
+                    <div class="col-lg-4 col-md-6 mb-5">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title text-center"><?php echo $result->title?></h5>
@@ -58,16 +97,50 @@ $results = $table->getBlogs();
                                 <a href="blogdetail.php?id=<?=$result->id?>" class="nav-link text-primary">show more >>></a>
                             </div>
                         </div>
-                </div>
-            <?php endforeach ?>
-        </div>
-        <footer class="fixed-bottom p-3" style="background-color: #f4f4f4;">
-            <div class="float-end d-none d-sm-inline">
-                <a href="_actions/logout.php" class="btn btn-outline-secondary">Logout</a>
+                    </div>
+                <?php endforeach ?>
             </div>
-            <strong>Copyright &copy; 2025 <a href="#">A Programmer</a>.</strong> All rights reserved.
-        </footer>
-    </div>
-    <script src="./dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </section>
+    <!-- End Content Area -->
+
+    <!-- Start Footer Section -->
+    <footer class="fixed-bottom" style="background-color: #fff;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row border-top pt-3">
+                        <div class="col-md-6 text-center">
+                            <ul class="list-inline">
+                                <li class="list-inline-item me-2">
+                                    <a href="javascript:void(0);">Example Technology Co.,Ltd</a>
+                                </li>
+                                <li class="list-inline-item me-2">
+                                    <a href="javascript:void(0);">About</a>
+                                </li>
+                                <li class="list-inline-item me-2">
+                                    <a href="javascript:void(0);">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <p>&copy; <span id="getyear">2000</span> Copyright. All Rights Reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer Section -->
+
+    <!-- bootstrap css1 js1 -->
+    <script src="dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- jquery ui css1 js1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
+    <!-- custom js -->
+    <script src="dist/js/app.js"></script>
 </body>
+
 </html>
