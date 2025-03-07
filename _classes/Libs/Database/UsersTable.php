@@ -123,4 +123,48 @@ class UsersTable {
             exit();
         }
     }
+
+    public function edit($id) {
+        try {
+            $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
+            $statement->execute([
+                "id" => $id
+            ]);
+
+            $data = $statement->fetch();
+            
+            return $data;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function update($data) {
+        try {
+
+            if(empty($data["image"])) {
+
+                $statement = $this->db->prepare("UPDATE posts SET title=:title, content=:content WHERE id=:id");
+                $statement->execute([
+                    "id" => $data["id"],
+                    "title" => $data["title"],
+                    "content" => $data["content"],
+                ]);
+
+            }else{
+
+                $statement = $this->db->prepare("UPDATE posts SET title=:title, content=:content, image=:image WHERE id=:id");
+                $statement->execute($data);
+
+            }
+            
+            return $statement->rowCount();
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
 }

@@ -8,7 +8,7 @@ use Libs\Database\UsersTable;
 
 $auth = Auth::check();
 $table = new UsersTable(new MySQL);
-$results = $table->getBlogs();
+$posts = $table->getBlogs();
 
 ?>
 
@@ -83,18 +83,18 @@ $results = $table->getBlogs();
     <section style="margin: 80px 0;">
         <div class="container">
             <div class="row">
-                <?php foreach($results as $result): ?>
+                <?php foreach($posts as $post): ?>
                     <div class="col-lg-4 col-md-6 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title text-center"><?php echo $result->title?></h5>
+                                <h5 class="card-title text-center"><?php echo $post->title?></h5>
                             </div>
                             <div class="card-body">
-                                <img src="img2.avif" alt="" style="width: 100%;height: 250px">
-                                <p class="my-3" style="width: 100%;height: 60px"><?php echo strlen($result->content) > 100 ? substr($result->content,0 , 100) . " ..." : $result->content ?></p>
+                                <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" style="width: 100%;height: 250px">
+                                <p class="my-3" style="width: 100%;height: 60px"><?php echo strlen($post->content) > 100 ? substr($post->content,0 , 100) . " ..." : $post->content ?></p>
                             </div>
                             <div class="card-footer">
-                                <a href="blogdetail.php?id=<?=$result->id?>" class="nav-link text-primary">show more >>></a>
+                                <a href="blogdetail.php?id=<?=$post->id?>" class="nav-link text-primary">show more >>></a>
                             </div>
                         </div>
                     </div>

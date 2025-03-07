@@ -1,10 +1,15 @@
 <?php
-include "../_actions/vendor/autoload.php";
+    include "../_actions/vendor/autoload.php";
 
-use Helpers\Auth;
+    use Helpers\Auth;
+    use Helpers\HTTP;
+    use Libs\Database\MySQL;
+    use Libs\Database\UsersTable;
 
-Auth::check();
+    Auth::check();
 
+    $table = new UsersTable(new MySQL);
+    $post = $table->edit($_GET["id"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,37 +29,40 @@ Auth::check();
     <link rel="stylesheet" href="../dist/css/style.css">
 </head>
 <body>
-        <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">
+        <div class="container-fluid vh-100">
             <div class="col-lg-6 mx-auto pt-5">
-                <div class="card">
+                <div class="card shadow" style="background-color: rgba(225,225,225,0.2);">
                     <div class="card-body">
-                        <h5 class="text-primary ms-3 pt-3"><i class="fa-solid fa-pen-to-square"></i>Add Blog</h5>
+                        <h5 class="text-primary ms-3 my-3"><i class="fa-solid fa-pen-to-square"></i>Edit Blog</h5>
                         <?php if(isset($_GET["type"])): ?>
                             <div class="alert alert-warning ms-3">
                             <i class="fa-solid fa-triangle-exclamation me-2"></i>
                             image must be jpg or png.
                             </div>
                         <?php endif ?>
-                        <form action="../_actions/add.php" method="post" enctype="multipart/form-data" class="px-3">
+
+                        <form action="../_actions/update.php" method="post" enctype="multipart/form-data" class="px-3">
+                            <input type="hidden" name="id" value="<?php echo $post->id ?>">
                             <div class="form-group my-3">
                                 <label for="title" class="fw-bold my-2">Title</label>
-                                <input type="text" name="title" id="title" class="form-control" placeholder="Title...">
+                                <input type="text" name="title" id="title" class="form-control" value="<?php echo $post->title ?>" placeholder="Title">
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="content" class="fw-bold my-2">Content</label>
-                                <textarea type="text" name="content" id="content" class="form-control" rows="7" placeholder="Content..."></textarea>
+                                <textarea type="text" name="content" id="content" class="form-control" rows="7" placeholder="Content"><?php echo $post->content ?></textarea>
                             </div>
 
                             <div class="form-group my-3">
+                                
                                 <label for="image" class="fw-bold my-2">Image</label><br>
-                                <img src="" alt="image" id="img" width="150px" height="150px" style="display: none;">
-                                <input type="file" name="image" id="image" onchange="document.getElementById('img').src = window.URL.createObjectURL(this.files[0]);document.getElementById('img').style.display = 'inline-block';">
+                                <img src="../_actions/photos/<?= $post->image ?>" alt="image" id="img" width="150px" height="150px">
+                                <input type="file" name="image" id="image" onchange="document.getElementById('img').src = window.URL.createObjectURL(this.files[0])">
                             </div>
 
                             <div class="form-group mt-4">
                                 <a href="index.php" class="btn btn-secondary"><i class="fa-solid fa-angles-left me-2"></i>Back</a>
-                                <button type="submit" class="btn btn-primary">Submit<i class="fa-solid fa-paper-plane ms-2"></i></button>
+                                <button type="submit" class="btn btn-primary">Update<i class="fa-solid fa-paper-plane ms-2"></i></button>
                                 
                             </div>
                 

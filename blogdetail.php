@@ -8,7 +8,7 @@ use Libs\Database\UsersTable;
 
 $auth = Auth::check();
 $table = new UsersTable(new MySQL);
-$result = $table->blogDetail($_GET["id"]);
+$post = $table->blogDetail($_GET["id"]);
 ?>
 
 <!DOCTYPE html>
@@ -74,15 +74,15 @@ $result = $table->blogDetail($_GET["id"]);
     <!-- End Navbar -->
 
     <!-- Start Content Area -->
-    <section style="margin: 80px 0;">
-        <div class="container">
+    <section class="container-fluid" style="margin: 80px 0;">
+        <div class="col-lg-8 mx-auto">
             <div class="card p-3">
                 <div class="card-header">
-                    <h5 class="card-title text-center"><?php echo $result->title?></h5>
+                    <h5 class="card-title text-center"><?php echo $post->title?></h5>
                 </div>
                 <div class="card-body">
-                    <img src="img2.avif" alt="" style="width: 50%;height: 300px">
-                    <p class="my-3" style="width: 100%;height: 60px"><?php echo $result->content ?></p>
+                    <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" class="img-thumbnail" style="width: 50%;height: 300px">
+                    <p class="my-3" style="width: 100%;height: 60px"><?php echo $post->content ?></p>
                 </div>
                 <div class="card-footeer">
                     <p><span class="fw-bold">user : </span><span class="text-muted">comment</span></p>
@@ -101,35 +101,6 @@ $result = $table->blogDetail($_GET["id"]);
         </div>
     </section>
     <!-- End Content Area -->
-
-    <!-- Start Footer Section -->
-    <footer class="fixed-bottom" style="background-color: #fff;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row border-top pt-3">
-                        <div class="col-md-6 text-center">
-                            <ul class="list-inline">
-                                <li class="list-inline-item me-2">
-                                    <a href="javascript:void(0);">Example Technology Co.,Ltd</a>
-                                </li>
-                                <li class="list-inline-item me-2">
-                                    <a href="javascript:void(0);">About</a>
-                                </li>
-                                <li class="list-inline-item me-2">
-                                    <a href="javascript:void(0);">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <p>&copy; <span id="getyear">2000</span> Copyright. All Rights Reserved.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- End Footer Section -->
 
     <!-- bootstrap css1 js1 -->
     <script src="dist/js/bootstrap.bundle.min.js"></script>

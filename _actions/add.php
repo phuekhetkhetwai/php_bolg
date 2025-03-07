@@ -33,5 +33,5 @@ if($type == "image/jpeg" || $type == "image/png"){
     HTTP::redirect("admin/index.php");
 
 }else{
-    HTTP::redirect("admin/create.php", "error=type");
+    HTTP::redirect("admin/create.php", "type=error");
 }
