@@ -53,9 +53,8 @@ $result = $table->blogDetail($_GET["id"]);
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a href="index.php" class="dropdown-item"><i
-                                                        class="fa-solid fa-user text-muted me-2"></i>Blogs</a>
-                                                <a href="_actions/logout.php" class="dropdown-item"><i
-                                                        class="fa-solid fa-user text-muted me-2"></i>Logout</a>
+                                                class="fa-solid fa-file text-muted me-2"></i>Blogs</a>
+                                                <a href="_actions/logout.php" class="dropdown-item"><i class="fa-solid fa-arrow-right-from-bracket text-muted me-2"></i>Logout</a>
                                             </div>
                                         </li>
                                         <!-- user account -->
@@ -88,12 +87,12 @@ $result = $table->blogDetail($_GET["id"]);
                 <div class="card-footeer">
                     <p><span class="fw-bold">user : </span><span class="text-muted">comment</span></p>
                     <form action="" method="">
-                        <label for="comment" class="h5 fw-bold mb-3">Comments</label>
+                        <label for="comment" class="h5 fw-bold mb-3"><i class="fa-solid fa-pen-to-square me-2"></i>Comments</label>
                         <div class="input-group">
                             <input type="text" name="comment" id="comment" class="form-control shadow-none" placeholder="Your comment...">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa-solid fa-search"></i></button>
+                                <i class="fa-solid fa-paper-plane"></i></button>
                             </div>
                         </div>
                     </form>

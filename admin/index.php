@@ -1,10 +1,21 @@
 <?php
+    include "../_actions/vendor/autoload.php";
+
+    use Helpers\HTTP;
+    use Libs\Database\MySQL;
+    use Libs\Database\UsersTable;
+
     session_start();
     $user = $_SESSION["user"];
-    if($user->role_id != 2) {
-        header("location: login.php?auth=fail");
+    
+    if(!$user|| $user->role_id != 2) {
+        HTTP::redirect("admin/login.php", "auth=fail");
         exit();
     }
+
+    $table = new UsersTable(new MySQL());
+    $datas = $table->getBlogs();
+
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Template</title>
+    <title>Admin</title>
     <!-- fav icon -->
     <link rel="icon" href="assets/img/fav/favicon.png" sizes="16x16">
     <!-- bootstrap css1 js1 -->
@@ -87,9 +98,8 @@
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a href="../index.php" class="dropdown-item"><i
-                                                        class="fa-solid fa-user text-muted me-2"></i>Blogs</a>
-                                                <a href="../_actions/logout.php" class="dropdown-item"><i
-                                                        class="fa-solid fa-user text-muted me-2"></i>Logout</a>
+                                                        class="fa-solid fa-user text-muted me-2"></i>User</a>
+                                                <a href="../_actions/logout.php" class="dropdown-item"><i class="fa-solid fa-arrow-right-from-bracket text-muted me-2"></i>Logout</a>
                                             </div>
                                         </li>
                                         <!-- user account -->
@@ -121,25 +131,31 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-10 col-md-9 ms-auto">
+                    <a href="create.php" class="btn btn-success mb-3"><i class="fa-solid fa-plus me-2"></i>New Blog</a>
                     <div class="card">
                         <div class="card-body">
                             <table class="table tabel-striped">
-                                <tr class="text-center">
+                                <tr>
                                     <th>No.</th>
-                                    <th>title</th>
+                                    <th style="width: 20%;">title</th>
                                     <th>Content</th>
+                                    <th>Image</th>
                                     <th>Actions</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Hello</td>
-                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ex excepturi hic sint itaque eos dolore fugit? Tempore autem enim, voluptates molestias pariatur voluptate deleniti magni repudiandae id, vero quasi.</td>
-                                    <td>
-                                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                                        <a href="#" class="text-danger ms-3"><i class="fa-solid fa-trash-alt"></i></a>
+                                <?php $id=0 ?>
+                                <?php foreach($datas as $data): ?>
+                                    <tr>
+                                        <td><?php echo ++$id ?>.</td>
+                                        <td><?php echo $data->title ?></td>
+                                        <td><?php echo strlen($data->content) > 100 ? substr($data->content,0 , 100) . " ..." : $data->content ?></td>
+                                        <td><a href="../_actions/photos/<?php echo $data->image ?>"><i class="fa-solid fa-image me-2 text-dark"></i><?php echo $data->image ?></a></td>
+                                        <td>
+                                            <a href="edit.php?id=<?php echo $data->id ?>"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="delete.php?id=<?php echo $data->id ?>" class="text-danger ms-3"><i class="fa-solid fa-trash-alt"></i></a>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>    
                             </table>
                         </div>
                     </div>

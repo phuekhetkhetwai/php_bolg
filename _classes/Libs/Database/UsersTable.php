@@ -3,6 +3,7 @@
 namespace Libs\Database;
 
 use Helpers\HTTP;
+use PDO;
 use PDOException;
 
 class UsersTable {
@@ -95,15 +96,29 @@ class UsersTable {
         }
     }
 
-    public function userRole() {
-        try {
-            $statement = $this->db->prepare("SELECT users.*,roles.id AS role FROM users LEFT JOIN roles ON users.role_id = roles.id");
-            $statement->execute();
-            $users = $statement->fetchAll();
+    // public function userRole() {
+    //     try {
+    //         $statement = $this->db->prepare("SELECT users.*,roles.id AS role FROM users LEFT JOIN roles ON users.role_id = roles.id");
+    //         $statement->execute();
+    //         $users = $statement->fetchAll();
 
-            return $users;
+    //         return $users;
             
-        } catch (PDOException $e) {
+    //     } catch (PDOException $e) {
+    //         echo $e->getMessage();
+    //         exit();
+    //     }
+    // }
+
+    public function add($data){
+        try{
+
+            $statement = $this->db->prepare("INSERT INTO posts (title, content, image, author_id) VALUES (:title, :content, :image, :author_id)");
+            $statement->execute($data);
+
+            return $this->db->lastInsertId();
+
+        }catch(PDOException $e){
             echo $e->getMessage();
             exit();
         }

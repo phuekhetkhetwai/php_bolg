@@ -48,7 +48,7 @@ $results = $table->getBlogs();
                                         <li class="nav-item dropdown">
                                             <a href="javascript:void(0);" class="dropdown-toggle"
                                                 data-bs-toggle="dropdown">
-                                                <span><?php echo $auth->name ?></span>
+                                                <span class="me-2"><?php echo $auth->name ?></span>
                                                 <img src="img/user.png" class="rounded-circle" width="25"
                                                     alt="user img">
                                             </a>
@@ -59,7 +59,7 @@ $results = $table->getBlogs();
                                                     </a>
                                                 <?php endif ?>
                                                 <a href="_actions/logout.php" class="dropdown-item">
-                                                    <i class="fa-solid fa-user text-muted me-2"></i>Logout
+                                                <i class="fa-solid fa-arrow-right-from-bracket text-muted me-2"></i>Logout
                                                 </a>
                                             </div>
                                         </li>
