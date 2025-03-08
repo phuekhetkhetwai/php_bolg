@@ -82,6 +82,20 @@ class UsersTable {
 
     }
 
+    public function getBlogsByLimit($offset,$numofRecs) {
+        try{
+            $statement = $this->db->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset, $numofRecs ");
+            $statement->execute();
+            $results = $statement->fetchAll();
+
+            return $results;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
+    }
+
     public function blogDetail($id) {
         try {
             $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
@@ -162,6 +176,19 @@ class UsersTable {
             
             return $statement->rowCount();
 
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function delete($id) {
+        try {
+            $statement = $this->db->prepare("DELETE FROM posts WHERE id=:id");
+            $statement->execute(["id" => $id]);
+
+            return $statement->rowCount();
+            
         } catch (PDOException $e) {
             echo $e->getMessage();
             exit();

@@ -16,6 +16,18 @@
     $table = new UsersTable(new MySQL());
     $datas = $table->getBlogs();
 
+    if(!empty($_GET["pageno"])){
+        $pageno = $_GET["pageno"];
+    }else{
+        $pageno = 1;
+    }
+
+    $numofRecs = 10;
+    $offset = ($pageno - 1) * $numofRecs;
+    $total_pages = ceil(count($datas) / $numofRecs);
+
+    $datas = $table->getBlogsByLimit($offset,$numofRecs);
+
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +154,7 @@
                                     <th>Image</th>
                                     <th>Actions</th>
                                 </tr>
-                                <?php $id=0 ?>
+                                <?php isset($id) ? $id : $id=0 ?>
                                 <?php foreach($datas as $data): ?>
                                     <tr>
                                         <td><?php echo ++$id ?>.</td>
@@ -151,12 +163,22 @@
                                         <td><a href="../_actions/photos/<?php echo $data->image ?>"><i class="fa-solid fa-image me-2 text-dark"></i><?php echo $data->image ?></a></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $data->id ?>"><i class="fa-solid fa-pen"></i></a>
-                                            <a href="delete.php?id=<?php echo $data->id ?>" class="text-danger ms-3"><i class="fa-solid fa-trash-alt"></i></a>
+                                            <a href="../_actions/delete.php?id=<?php echo $data->id ?>" class="text-danger ms-3" onclick="return confirm('Are you sure you want to delete this item?')"><i class="fa-solid fa-trash-alt"></i></a>
 
                                         </td>
                                     </tr>
                                 <?php endforeach ?>    
                             </table>
+
+                            <div class="float-end">
+                                <ul class="pagination">
+                                    <li class="page-item"><a href="?pageno=1" class="page-link">first</a></li>
+                                    <li class="page-item <?php echo $pageno <= 1 ? "disabled" : "" ?>"><a href="<?php echo $pageno <= 1 ? "#" : "?pageno=".($pageno-1) ?>" class="page-link"><i class="fa-solid fa-angles-left"></i></a></li>
+                                    <li class="page-item"><a href="#" class="page-link"><?= $pageno ?></a></li>
+                                    <li class="page-item <?php echo $pageno >= $total_pages ? "disabled" : "" ?>"><a href="<?php echo $pageno >= $total_pages ? "#" : "?pageno=".($pageno+1) ?>" class="page-link"><i class="fa-solid fa-angles-right"></i></a></li>
+                                    <li class="page-item"><a href="?pageno=<?= $total_pages ?>" class="page-link">last</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
