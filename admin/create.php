@@ -25,7 +25,7 @@ Auth::check();
 </head>
 <body>
         <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">
-            <div class="col-lg-6 mx-auto pt-5">
+            <div class="col-lg-6 mx-auto pt-3">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="text-primary ms-3 pt-3"><i class="fa-solid fa-pen-to-square"></i>Add Blog</h5>
@@ -43,7 +43,7 @@ Auth::check();
 
                             <div class="form-group my-3">
                                 <label for="content" class="fw-bold my-2">Content</label>
-                                <textarea type="text" name="content" id="content" class="form-control" rows="7" placeholder="Content..."></textarea>
+                                <textarea type="text" name="content" id="content" class="form-control" rows="12" placeholder="Content..."></textarea>
                             </div>
 
                             <div class="form-group my-3">

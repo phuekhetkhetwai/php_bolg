@@ -138,6 +138,7 @@ class UsersTable {
         }
     }
 
+
     public function edit($id) {
         try {
             $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
@@ -193,5 +194,57 @@ class UsersTable {
             echo $e->getMessage();
             exit();
         }
+    }
+
+    public function getUsers(){
+        try{
+            $statement = $this->db->prepare("SELECT * FROM users");
+            $statement->execute();
+
+            $users = $statement->fetchAll();
+
+            return $users;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function getUsersByLimit($offset,$numofRecs,$searchval="") {
+        try{
+            if(empty($searchval)){
+
+                $statement = $this->db->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset, $numofRecs");
+            }else{
+
+                $statement = $this->db->prepare("SELECT * FROM users WHERE name LIKE '%$searchval%' ORDER BY id DESC LIMIT $offset, $numofRecs");
+            }
+
+
+            $statement->execute();
+            $results = $statement->fetchAll();
+
+            return $results;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
+    }
+
+    public function getUsersBySearch($searchval) {
+        try{
+            $statement = $this->db->prepare("SELECT * FROM users WHERE name LIKE '%$searchval%' ORDER BY id DESC");
+            $statement->execute();
+            $users = $statement->fetchAll();
+
+            return $users;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
     }
 }

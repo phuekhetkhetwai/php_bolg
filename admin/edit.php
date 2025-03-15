@@ -30,7 +30,7 @@
 </head>
 <body>
         <div class="container-fluid vh-100">
-            <div class="col-lg-6 mx-auto pt-5">
+            <div class="col-lg-6 mx-auto pt-3">
                 <div class="card shadow" style="background-color: rgba(225,225,225,0.2);">
                     <div class="card-body">
                         <h5 class="text-primary ms-3 my-3"><i class="fa-solid fa-pen-to-square"></i>Edit Blog</h5>
