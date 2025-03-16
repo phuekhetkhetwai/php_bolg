@@ -69,7 +69,7 @@
 
                                 <li class="nav-item nav-categories">Main</li>
                                 <li class="nav-item"><a href="index.php"
-                                        class="nav-link text-white p-3 mb-2 sidebarlinks"><i
+                                        class="nav-link text-white p-3 mb-2 sidebarlinks" style="background-color: #333;box-shadow: 1px 0 5px #222;"><i
                                             class="fa-solid fa-file me-3"></i>BlogList</a></li>
                                 <li class="nav-item"><a href="user_lists.php"
                                         class="nav-link text-white p-3 mb-2 sidebarlinks"><i

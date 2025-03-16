@@ -22,6 +22,12 @@ Auth::check();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"></script>
     <!-- custom css -->
     <link rel="stylesheet" href="../dist/css/style.css">
+    <style>
+        .form-control::placeholder{
+            font-size: 13px;
+            color: #8b8b8b;
+        }
+    </style>
 </head>
 <body>
         <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">

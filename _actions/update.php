@@ -7,8 +7,6 @@ use Helpers\Auth;
 use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
 
-use function PHPSTORM_META\type;
-
 Auth::check();
 
 $id = $_POST["id"];

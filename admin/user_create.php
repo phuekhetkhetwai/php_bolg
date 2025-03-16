@@ -22,13 +22,25 @@ Auth::check();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"></script>
     <!-- custom css -->
     <link rel="stylesheet" href="../dist/css/style.css">
+    <style>
+        .form-control::placeholder{
+            font-size: 13px;
+            color: #8b8b8b;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">
         <div class="col-md-5 mx-auto" style="padding-top: 100px;">
             <div class="card p-3">
                 <div class="card-body">
-                    <h5 class="text-primary ms-3 pt-2"><i class="fa-solid fa-user"></i>Add User</h5>
+                    <h5 class="text-primary ms-3 py-2"><i class="fa-solid fa-user-pen me-2"></i>Add User</h5>
+                    <?php if(isset($_GET["duplicated"])): ?>
+                            <div class="alert alert-warning text-danger ms-3">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                            Email Duplicated!!!
+                            </div>
+                        <?php endif ?>
                     <form action="../_actions/user_add.php" method="post" class="px-3">
                         <div class="form-group my-3">
                             <label for="name" class="fw-bold my-2">Name</label>
@@ -46,7 +58,7 @@ Auth::check();
                         </div>
 
                         <div class="form-group mt-4">
-                            <a href="index.php" class="btn btn-secondary"><i class="fa-solid fa-angles-left me-2"></i>Back</a>
+                            <a href="user_lists.php" class="btn btn-secondary"><i class="fa-solid fa-angles-left me-2"></i>Back</a>
                             <button type="submit" class="btn btn-primary">Submit<i class="fa-solid fa-paper-plane ms-2"></i></button>
                                     
                         </div>

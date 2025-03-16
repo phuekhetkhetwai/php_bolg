@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Blog</title>
+    <title>Edit Blog</title>
     <!-- fav icon -->
     <link rel="icon" href="assets/img/fav/favicon.png" sizes="16x16">
     <!-- bootstrap css1 js1 -->
@@ -27,11 +27,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"></script>
     <!-- custom css -->
     <link rel="stylesheet" href="../dist/css/style.css">
+    <style>
+        .form-control::placeholder{
+            font-size: 13px;
+            color: #8b8b8b;
+        }
+    </style>
 </head>
 <body>
-        <div class="container-fluid vh-100">
+        <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">
             <div class="col-lg-6 mx-auto pt-3">
-                <div class="card shadow" style="background-color: rgba(225,225,225,0.2);">
+                <div class="card shadow">
                     <div class="card-body">
                         <h5 class="text-primary ms-3 my-3"><i class="fa-solid fa-pen-to-square"></i>Edit Blog</h5>
                         <?php if(isset($_GET["type"])): ?>

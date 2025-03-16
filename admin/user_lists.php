@@ -16,6 +16,15 @@
     $table = new UsersTable(new MySQL());
     $users = $table->getUsers();
 
+    if(isset($_POST["search"])) {
+        setcookie("search",$_POST["search"], time() + (86400 * 30), "/");
+      } else {
+        if(empty($_GET["pageno"])) {
+          unset($_COOKIE["search"]);
+          setcookie("search", "" ,time() -1, "/");
+        }
+      }
+
     if(!empty($_GET["pageno"])){
         $pageno = $_GET["pageno"];
     }else{
@@ -25,8 +34,8 @@
     $numofRecs = 2;
     $offset = ($pageno - 1) * $numofRecs;
 
-    if(isset($_POST["search"])){
-        $searchval = $_POST["search"];
+    if(isset($_POST["search"]) || isset($_COOKIE["search"])){
+        $searchval = isset($_POST["search"]) ? $_POST["search"] : $_COOKIE["search"];
 
         $users = $table->getUsersBySearch($searchval);
 
@@ -83,7 +92,7 @@
                                         class="nav-link text-white p-3 mb-2 sidebarlinks"><i
                                             class="fa-solid fa-file me-3"></i>BlogList</a></li>
                                 <li class="nav-item"><a href="user_lists.php"
-                                        class="nav-link text-white p-3 mb-2 sidebarlinks"><i
+                                        class="nav-link text-white p-3 mb-2 sidebarlinks" style="background-color: #333;box-shadow: 1px 0 5px #222;"><i
                                             class="fa-solid fa-users me-3"></i>UserList</a></li>
                             </ul>
                         </div>
@@ -157,6 +166,19 @@
                 <div class="row">
                     <div class="col-lg-10 col-md-9 ms-auto">
                         <a href="user_create.php" class="btn btn-success mb-3"><i class="fa-solid fa-plus me-2"></i>New User</a>
+                        <?php if(isset($_GET["update"])): ?>
+                            <div class="alert alert-info ms-3">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                            Update Successfully.
+                            </div>
+                        <?php endif ?>
+
+                        <?php if(isset($_GET["create"])): ?>
+                            <div class="alert alert-info ms-3">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                            Create Successfully.
+                            </div>
+                        <?php endif ?>
                         <div class="card">
                             <div class="card-body">
                                 <table class="table tabel-striped">
@@ -176,7 +198,7 @@
                                             <td><?php echo $user->role_id ?></td>
                                             <td>
                                                 <a href="user_edit.php?id=<?php echo $user->id ?>"><i class="fa-solid fa-pen"></i></a>
-                                                <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="text-danger ms-3" onclick="return confirm('Are you sure you want to delete this item?')"><i class="fa-solid fa-trash-alt"></i></a>
+                                                <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="text-danger ms-3" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash-alt"></i></a>
 
                                             </td>
                                         </tr>
