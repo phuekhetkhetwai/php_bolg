@@ -2,8 +2,15 @@
 include "../_actions/vendor/autoload.php";
 
 use Helpers\Auth;
+use Helpers\HTTP;
 
-Auth::check();
+
+$auth = Auth::check();
+    
+if(!$auth|| $auth->role_id != 2) {
+    HTTP::redirect("admin/login.php", "auth=fail");
+        exit();
+}
 
 ?>
 <!DOCTYPE html>

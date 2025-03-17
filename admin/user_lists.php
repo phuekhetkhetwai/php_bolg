@@ -2,11 +2,11 @@
     include "../_actions/vendor/autoload.php";
 
     use Helpers\HTTP;
+    use Helpers\Auth;
     use Libs\Database\MySQL;
     use Libs\Database\UsersTable;
 
-    session_start();
-    $auth = $_SESSION["user"];
+    $auth = Auth::check();
     
     if(!$auth|| $auth->role_id != 2) {
         HTTP::redirect("admin/login.php", "auth=fail");
@@ -14,7 +14,6 @@
     }
 
     $table = new UsersTable(new MySQL());
-    $users = $table->getUsers();
 
     if(isset($_POST["search"])) {
         setcookie("search",$_POST["search"], time() + (86400 * 30), "/");
@@ -31,7 +30,7 @@
         $pageno = 1;
     }
 
-    $numofRecs = 2;
+    $numofRecs = 5;
     $offset = ($pageno - 1) * $numofRecs;
 
     if(isset($_POST["search"]) || isset($_COOKIE["search"])){
@@ -42,14 +41,15 @@
         $total_pages = ceil(count($users) / $numofRecs);
         $users = $table->getUsersByLimit($offset,$numofRecs,$searchval);
 
-    } else {
+    }else{
+
+        $users = $table->getUsers();
 
         $total_pages = ceil(count($users) / $numofRecs);
         $users = $table->getUsersByLimit($offset,$numofRecs);
+
     }
 
-    
-    
 ?>
 
 <!DOCTYPE html>
@@ -110,10 +110,10 @@
                                             <input type="text" name="search" id="search"
                                                 class="form-control border-0 shadow-none"
                                                 placeholder="Search Something...">
-                                                <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary">
                                                     <i class="fa-solid fa-search"></i>
-                                            </button>
+                                                </button>
                                             </div>
                                         </div>
                                     </form>
@@ -183,22 +183,43 @@
                             <div class="card-body">
                                 <table class="table tabel-striped">
                                     <tr>
+                                        <th></th>
                                         <th>No.</th>
                                         <th style="width: 15%;">Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
+                                        <th class="text-center">Change Role</th>
                                         <th>Actions</th>
                                     </tr>
                                     <?php $id=0 ?>
                                     <?php foreach($users as $user): ?>
                                         <tr>
+                                            <td></td>
                                             <td><?php echo ++$id ?>.</td>
                                             <td><?php echo $user->name ?></td>
                                             <td><?php echo $user->email ?></td>
-                                            <td><?php echo $user->role_id ?></td>
                                             <td>
-                                                <a href="user_edit.php?id=<?php echo $user->id ?>"><i class="fa-solid fa-pen"></i></a>
-                                                <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="text-danger ms-3" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash-alt"></i></a>
+                                                <?php if($user->role_id == 2) :?>
+                                                    <div class="badge bg-success rounded-0"><?php echo $user->role ?></div>
+                                                <?php else : ?>
+                                                    <div class="badge bg-secondary rounded-0"><?php echo $user->role ?></div>
+                                                <?php endif ?>
+                                                
+                                            </td>
+
+                                            <td class="text-center">
+                                                <div class="dropdown">
+                                                    <a href="" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-arrows-rotate me-2"></i>Roles</a>
+
+                                                    <div class="dropdown-menu">
+                                                        <a href="../_actions/role.php?id=<?= $user->id ?>&role=1&pageno=<?= $pageno ?>" class="dropdown-item small">User</a>
+                                                        <a href="../_actions/role.php?id=<?= $user->id ?>&role=2&pageno=<?= $pageno ?>" class="dropdown-item text-success small">Admin</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="user_edit.php?id=<?php echo $user->id ?>"><i class="fa-solid fa-pen fa-lg"></i></a>
+                                                <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="text-danger ms-4" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash-alt fa-lg"></i></a>
 
                                             </td>
                                         </tr>

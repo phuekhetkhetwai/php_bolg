@@ -12,16 +12,11 @@ $password = $_POST["password"];
 $table = new UsersTable(new MySQL);
 $user = $table->find($email,$password);
 
-if($user) {
-    if($user->role_id == 2){
-        session_start();
-        $_SESSION["user"] = $user;
-        HTTP::redirect("admin/index.php");
-        
-    } else {
+if($user && $user->role_id == 2) {
+    session_start();
+    $_SESSION["user"] = $user;
+    HTTP::redirect("admin/index.php");
 
-        HTTP::redirect("admin/login.php", "incorrect=login");
-    }
 }else {
     HTTP::redirect("admin/login.php", "incorrect=login");
 }

@@ -82,20 +82,6 @@ class UsersTable {
 
     }
 
-    public function getBlogsByLimit($offset,$numofRecs) {
-        try{
-            $statement = $this->db->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset, $numofRecs ");
-            $statement->execute();
-            $results = $statement->fetchAll();
-
-            return $results;
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            exit();
-        }
-
-    }
-
     public function blogDetail($id) {
         try {
             $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
@@ -109,20 +95,6 @@ class UsersTable {
             exit();
         }
     }
-
-    // public function userRole() {
-    //     try {
-    //         $statement = $this->db->prepare("SELECT users.*,roles.id AS role FROM users LEFT JOIN roles ON users.role_id = roles.id");
-    //         $statement->execute();
-    //         $users = $statement->fetchAll();
-
-    //         return $users;
-            
-    //     } catch (PDOException $e) {
-    //         echo $e->getMessage();
-    //         exit();
-    //     }
-    // }
 
     public function add($data){
         try{
@@ -138,7 +110,6 @@ class UsersTable {
         }
     }
 
-
     public function edit($id) {
         try {
             $statement = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
@@ -146,9 +117,9 @@ class UsersTable {
                 "id" => $id
             ]);
 
-            $data = $statement->fetch();
+            $result = $statement->fetch();
             
-            return $data;
+            return $result;
             
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -196,31 +167,33 @@ class UsersTable {
         }
     }
 
-    public function getUsers(){
+    public function getBlogsByLimit($offset,$numofRecs,$searchval="") {
         try{
-            $statement = $this->db->prepare("SELECT * FROM users");
-            $statement->execute();
 
-            $users = $statement->fetchAll();
-
-            return $users;
-
-        }catch(PDOException $e){
-            echo $e->getMessage();
-        }
-    }
-
-    public function getUsersByLimit($offset,$numofRecs,$searchval="") {
-        try{
             if(empty($searchval)){
 
-                $statement = $this->db->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset, $numofRecs");
+                $statement = $this->db->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset, $numofRecs ");
+
             }else{
 
-                $statement = $this->db->prepare("SELECT * FROM users WHERE name LIKE '%$searchval%' ORDER BY id DESC LIMIT $offset, $numofRecs");
+                $statement = $this->db->prepare("SELECT * FROM posts WHERE title LIKE '%$searchval%' ORDER BY id DESC LIMIT $offset, $numofRecs ");
+
             }
+            $statement->execute();
+            $results = $statement->fetchAll();
+
+            return $results;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
+    }
 
 
+    public function getBlogsBySearch($searchval) {
+        try{
+            $statement = $this->db->prepare("SELECT * FROM posts WHERE title LIKE '%$searchval%' ORDER BY id DESC");
             $statement->execute();
             $results = $statement->fetchAll();
 
@@ -233,19 +206,20 @@ class UsersTable {
 
     }
 
-    public function getUsersBySearch($searchval) {
+
+    public function getUsers(){
         try{
-            $statement = $this->db->prepare("SELECT * FROM users WHERE name LIKE '%$searchval%' ORDER BY id DESC");
+            // $statement = $this->db->prepare("SELECT * FROM users");
+            $statement = $this->db->prepare("SELECT * FROM users");
             $statement->execute();
+
             $users = $statement->fetchAll();
 
             return $users;
 
         }catch(PDOException $e){
             echo $e->getMessage();
-            exit();
         }
-
     }
 
     public function editUser ($id) {
@@ -307,4 +281,57 @@ class UsersTable {
             exit();
         }
     }
+
+    public function getUsersByLimit($offset,$numofRecs,$searchval="") {
+        try{
+            if(empty($searchval)){
+
+                $statement = $this->db->prepare("SELECT users.*,roles.name AS role FROM users LEFT JOIN roles ON users.role_id = roles.id ORDER BY id DESC LIMIT $offset, $numofRecs");
+                
+            }else{
+
+                $statement = $this->db->prepare("SELECT users.*,roles.name AS role FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE users.name LIKE '%$searchval%' ORDER BY id DESC LIMIT $offset, $numofRecs");
+            }
+
+
+            $statement->execute();
+            $results = $statement->fetchAll();
+
+            return $results;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
+    }
+
+    public function getUsersBySearch($searchval) {
+        try{
+            $statement = $this->db->prepare("SELECT * FROM users WHERE name LIKE '%$searchval%' ORDER BY id DESC");
+            $statement->execute();
+            $users = $statement->fetchAll();
+
+            return $users;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit();
+        }
+
+    }
+
+    public function changeRole($data) {
+        try {
+            $statement = $this->db->prepare("UPDATE users SET role_id=:role_id WHERE id=:id");
+            $statement->execute($data);
+
+            return $statement->rowCount();
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
 }

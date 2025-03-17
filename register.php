@@ -28,6 +28,11 @@
 
         }
 
+        .form-control::placeholder{
+            font-size: 13px;
+            color: #8b8b8b;
+        }
+        
     </style>
 </head>
 <body>

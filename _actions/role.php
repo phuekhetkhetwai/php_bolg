@@ -2,8 +2,8 @@
 
 include "vendor/autoload.php";
 
-use Helpers\HTTP;
 use Helpers\Auth;
+use Helpers\HTTP;
 use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
 
@@ -14,7 +14,12 @@ if(!$auth|| $auth->role_id != 2) {
     exit();
 }
 
-$table = new UsersTable(new MySQL);
-$table->deleteUser($_GET["id"]);
+$pageno = $_GET["pageno"];
 
-HTTP::redirect("admin/user_lists.php");
+$table = new UsersTable(new MySQL());
+$table->changeRole([
+    "id" => $_GET["id"],
+    "role_id" => $_GET["role"]
+]);
+
+HTTP::redirect("admin/user_lists.php", "pageno=$pageno");

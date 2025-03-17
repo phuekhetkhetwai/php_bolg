@@ -7,7 +7,12 @@ use Helpers\Auth;
 use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
 
-Auth::check();
+$auth = Auth::check();
+    
+if(!$auth|| $auth->role_id != 2) {
+    HTTP::redirect("admin/login.php", "auth=fail");
+    exit();
+}
 
 $id = $_POST["id"];
 $title = $_POST["title"];

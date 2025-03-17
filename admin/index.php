@@ -2,21 +2,26 @@
     include "../_actions/vendor/autoload.php";
 
     use Helpers\HTTP;
+    use Helpers\Auth;
     use Libs\Database\MySQL;
     use Libs\Database\UsersTable;
 
-    session_start();
-    $auth = $_SESSION["user"];
+    $auth = Auth::check();
     
     if(!$auth|| $auth->role_id != 2) {
         HTTP::redirect("admin/login.php", "auth=fail");
         exit();
     }
 
-    $table = new UsersTable(new MySQL());
-    $datas = $table->getBlogs();
+    if(isset($_POST["search"])) {
+        setcookie("search",$_POST["search"], time() + (86400 * 30), "/");
+      } else {
+        if(empty($_GET["pageno"])) {
+          unset($_COOKIE["search"]);
+          setcookie("search", "" ,time() -1, "/");
+        }
+      }
 
-    
     
     if(!empty($_GET["pageno"])){
         $pageno = $_GET["pageno"];
@@ -24,10 +29,26 @@
         $pageno = 1;
     }
 
-    $numofRecs = 10;
+    $numofRecs = 3;
     $offset = ($pageno - 1) * $numofRecs;
-    $total_pages = ceil(count($datas) / $numofRecs);
-    $datas = $table->getBlogsByLimit($offset,$numofRecs);
+
+    $table = new UsersTable(new MySQL());
+
+    if(isset($_POST["search"]) || isset($_COOKIE["search"])){
+        $searchval = isset($_POST["search"]) ? $_POST["search"] : $_COOKIE["search"];
+
+        $datas = $table->getBlogsBySearch($searchval);
+
+        $total_pages = ceil(count($datas) / $numofRecs);
+        $datas = $table->getBlogsByLimit($offset,$numofRecs,$searchval);
+
+    }else{
+        $datas = $table->getBlogs();
+
+        $total_pages = ceil(count($datas) / $numofRecs);
+        $datas = $table->getBlogsByLimit($offset,$numofRecs);
+    }
+    
 
 
 ?>
@@ -85,13 +106,13 @@
                             <div class="row">
                                 <div class="navbar navbar-expand navbar-light bg-white shadow">
                                     <!-- start quick search -->
-                                    <form action="" method="" class="me-auto">
+                                    <form action="" method="post" class="me-auto">
                                         <div class="input-group">
-                                            <input type="text" name="quicksearch" id="quicksearch"
+                                            <input type="text" name="search" id="search"
                                                 class="form-control border-0 shadow-none"
                                                 placeholder="Search Something...">
                                             <div class="input-group-append">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quicksearchmodal">
+                                                <button type="submit" class="btn btn-primary">
                                                     <i class="fa-solid fa-search"></i>
                                                 </button>
                                             </div>
