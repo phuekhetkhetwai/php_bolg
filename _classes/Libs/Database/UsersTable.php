@@ -334,4 +334,31 @@ class UsersTable {
         }
     }
 
+    public function addComment($data) {
+        try {
+            $statement = $this->db->prepare("INSERT INTO comments (content, author_id, post_id) VALUE (:content, :author_id, :post_id)");
+            $statement->execute($data);
+
+            return $statement->rowCount();
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function getComment($id) {
+        try {
+            $statement = $this->db->prepare("SELECT comments.*,users.name FROM comments LEFT JOIN users ON comments.author_id = users.id WHERE comments.post_id=:id ORDER BY id DESC");
+            $statement->execute(["id" => $id]);
+            $results = $statement->fetchAll();
+
+            return $results;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
 }

@@ -19,7 +19,7 @@ $content = $_POST["content"];
 $name = $_FILES["image"]["name"];
 $type = $_FILES["image"]["type"];
 $tmp_name = $_FILES["image"]["tmp_name"];
-$author_id = $user->id;
+$author_id = $auth->id;
 
 // print_r($_FILES["image"]);
 // exit();
