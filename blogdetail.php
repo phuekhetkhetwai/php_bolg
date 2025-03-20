@@ -27,39 +27,55 @@ $comments = $table->getComment($_GET["id"]);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css"></script>
     <!-- Custom Css -->
     <link rel="stylesheet" href="dist/css/style.css">
+    <style>
+        .form-control::placeholder{
+            font-size: 13px;
+            color: #8b8b8b;
+        }
+
+        .comments {
+            cursor: pointer;
+        } 
+
+        .commentboxs{
+            height: 0;
+        }
+
+        .commentboxs.heights{
+            height: 100px;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 
 <body class="bg-white">
     <!-- Start Content Area -->
     <section class="container-fluid mt-3">
         <div class="col-lg-8 mx-auto">
-            <div class="border p-3">
+            <div class="py-3">
                     <h5 class="text-center text-uppercase"><?php echo $post->title?></h5>
                     <hr>
                 
-                <div style="overflow-y: scroll;height: 370px;">
+                <div class="border-bottom" style="overflow-y: scroll;height: 430px;">
                     <div class="float-start me-3" style="width: 50%;">
-                    <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" class="img-thumbnail">
+                    <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" class="img-thumbnail" style="width: 100%;">
                     </div>
-                    <p><?php echo $post->content ?></p>
+                    <p style="line-height: 25px;"><?php echo $post->content ?></p>
                 </div>
             </div>
-
-            
         </div>
         <div  class="fixed-bottom bg-white col-lg-8 mx-auto p-2">
             <ul class="list-group mt-2 rounded-0">
-                <li class="list-group-item bg-secondary text-white"><i class="fa-solid fa-pen-to-square me-2"></i>Comments <span class="badge bg-white text-secondary float-end"><?php echo count($comments) ?></li>
+                <li class="list-group-item bg-secondary text-white comments"><i class="fa-solid fa-pen-to-square me-2"></i>Comments <span class="badge bg-white text-secondary float-end"><?php echo count($comments) ?></li>
             </ul>
             <?php if(!empty($comments)): ?>
-                <div class="border rounded-0" style="overflow-y: scroll;height: 120px;margin-bottom: 20px;">
-                
+                <div class="border rounded-0 commentboxs heights" style="overflow-y: scroll;">
                     <ul class="list-group ps-3">
                         <?php foreach($comments as $comment): ?>
-                            <li class="list-unstyled mt-2">
+                            <li class="list-unstyled mb-2">
 
                             <?php if($auth->id == $comment->author_id || $auth->role_id == 2): ?>
-                                <a href="#" class="btn-close float-end py-2 me-2"></a>
+                                <a href="_actions/delete_comment.php?id=<?php echo $comment->id ?>&post=<?php echo $post->id ?>" class="btn-close float-end me-2"></a>
                             <?php endif ?>
                             
                             <b class="text-dark h6 fw-bold"><?php echo $comment->name ?></b> <span class="fw-bold">:</span>
@@ -68,7 +84,7 @@ $comments = $table->getComment($_GET["id"]);
                         <?php endforeach ?>
 
                     </ul>
-                </div>
+                </div> 
             <?php endif ?>
             
             <form action="_actions/add_comment.php" method="post" class="mt-2">
@@ -95,7 +111,16 @@ $comments = $table->getComment($_GET["id"]);
     <!-- jquery ui css1 js1 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
     <!-- custom js -->
-    <script src="dist/js/app.js"></script>
+    <script>
+        const getcomments = document.querySelector(".comments");
+        const getcommentboxs = document.querySelector(".commentboxs");
+
+        getcomments.addEventListener("click",function(){
+            getcommentboxs.classList.toggle("heights");
+
+        });
+
+    </script>
 </body>
 
 </html>

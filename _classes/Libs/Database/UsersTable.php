@@ -361,4 +361,18 @@ class UsersTable {
         }
     }
 
+    public function deleteComment($id) {
+        try {
+            $statement = $this->db->prepare("DELETE FROM comments WHERE id=:id");
+            $statement->execute(["id" => $id]);
+            $result = $statement->fetch();
+
+            return $result;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
 }
