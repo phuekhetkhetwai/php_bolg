@@ -39,10 +39,13 @@
 <body>
         <div class="container" style="width: 800px;">
             <?php if(isset($_GET["incorrect"])):?>
-                <div class="alert alert-warning mb-3"><i class="fa-solid fa-exclamation"></i> Incorrect Email and Password</div>
+                <div class="alert alert-warning mb-3"><i class="fa-solid fa-exclamation-circle me-2"></i> Incorrect Email and Password</div>
             <?php endif ?>
             <?php if(isset($_GET["register"])):?>
-                <div class="alert alert-info mb-3"><i class="fa-solid fa-circle-info"></i> Successfully register!!You can Login now.</div>
+                <div class="alert alert-info mb-3"><i class="fa-solid fa-circle-info me-2"></i> Successfully register!!You can Login now.</div>
+            <?php endif ?>
+            <?php if(isset($_GET["suspended"])):?>
+                <div class="alert alert-danger mb-3"><i class="fa-solid fa-circle-info me-2"></i>Account suspended !!</div>
             <?php endif ?>
             <h3 class="text-center">Login</h3>
             <div class="d-flex justify-content-center ">

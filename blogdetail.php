@@ -78,7 +78,7 @@ $comments = $table->getComment($_GET["id"]);
                                 <a href="_actions/delete_comment.php?id=<?php echo $comment->id ?>&post=<?php echo $post->id ?>" class="btn-close float-end me-2"></a>
                             <?php endif ?>
                             
-                            <b class="text-dark h6 fw-bold"><?php echo $comment->name ?></b> <span class="fw-bold">:</span>
+                            <b class="text-dark h6 fw-bold"><?php echo empty($comment->name) ? "deleted user" : $comment->name ?></b> <span class="fw-bold">:</span>
                             <?php echo $comment->content ?>
                             </li>
                         <?php endforeach ?>

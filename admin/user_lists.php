@@ -30,7 +30,7 @@
         $pageno = 1;
     }
 
-    $numofRecs = 5;
+    $numofRecs = 2;
     $offset = ($pageno - 1) * $numofRecs;
 
     if(isset($_POST["search"]) || isset($_COOKIE["search"])){
@@ -213,15 +213,25 @@
 
                                                     <div class="dropdown-menu">
                                                         <a href="../_actions/role.php?id=<?= $user->id ?>&role=1&pageno=<?= $pageno ?>" class="dropdown-item small">User</a>
-                                                        <a href="../_actions/role.php?id=<?= $user->id ?>&role=2&pageno=<?= $pageno ?>" class="dropdown-item text-success small">Admin</a>
+                                                        <?php if(!($user->suspended)) :?>
+                                                            <a href="../_actions/role.php?id=<?= $user->id ?>&role=2&pageno=<?= $pageno ?>" class="dropdown-item text-success small">Admin</a>
+                                                        <?php endif ?>
+
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="user_edit.php?id=<?php echo $user->id ?>"><i class="fa-solid fa-pen fa-lg"></i></a>
-                                                <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="text-danger ms-4" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash-alt fa-lg"></i></a>
+                                                <?php if($user->role_id != 2) :?>
+                                                    <?php if($user->suspended) :?>
+                                                        <a href="../_actions/user_unsuspended.php?id=<?php echo $user->id?>&pageno=<?= $pageno ?>" class="btn btn-sm btn-warning">Ban</a>
+                                                    <?php else : ?>
+                                                        <a href="../_actions/user_suspended.php?id=<?php echo $user->id ?>&pageno=<?= $pageno ?>" class="btn btn-sm btn-outline-warning">Ban</a>
+                                                    <?php endif ?>
 
+                                                    <a href="../_actions/user_delete.php?id=<?php echo $user->id ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?')"><i class="fa-solid fa-trash-alt px-2"></i></a>
+                                                <?php endif ?>    
                                             </td>
+
                                         </tr>
                                     <?php endforeach ?>    
                                 </table>

@@ -13,9 +13,15 @@ $table = new UsersTable(new MySQL);
 $user = $table->find($email,$password);
 
 if($user) {
-    session_start();
-    $_SESSION["user"] = $user;
-    HTTP::redirect("index.php");
+
+    if($user->suspended) {
+        HTTP::redirect("login.php", "suspended=account");
+    }else{
+        session_start();
+        $_SESSION["user"] = $user;
+        HTTP::redirect("index.php");
+    }
+
 }else {
     HTTP::redirect("login.php", "incorrect=login");
 }

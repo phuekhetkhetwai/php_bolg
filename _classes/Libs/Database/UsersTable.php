@@ -334,6 +334,32 @@ class UsersTable {
         }
     }
 
+    public function suspended($data) {
+        try {
+            $statement = $this->db->prepare("UPDATE users SET suspended=:suspended WHERE id=:id");
+            $statement->execute($data);
+
+            return $statement->rowCount();
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function unsuspended($data) {
+        try {
+            $statement = $this->db->prepare("UPDATE users SET suspended=:suspended WHERE id=:id");
+            $statement->execute($data);
+
+            return $statement->rowCount();
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
     public function addComment($data) {
         try {
             $statement = $this->db->prepare("INSERT INTO comments (content, author_id, post_id) VALUE (:content, :author_id, :post_id)");
