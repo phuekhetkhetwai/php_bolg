@@ -90,7 +90,7 @@ $comments = $table->getComment($_GET["id"]);
             <form action="_actions/add_comment.php" method="post" class="mt-2">
                 <input type="hidden" name="id" value="<?php echo $post->id ?>">
                 <div class="input-group">
-                    <input type="text" name="content" id="content" class="form-control shadow-none" placeholder="Your comment...">
+                    <input type="text" name="content" id="content" class="form-control shadow-none" placeholder="<?php echo isset($_GET["content"]) ? "* comment cannot be null" : "Your comment..." ?>">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>

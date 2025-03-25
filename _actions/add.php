@@ -24,19 +24,34 @@ $author_id = $auth->id;
 // print_r($_FILES["image"]);
 // exit();
 
-if($type == "image/jpeg" || $type == "image/png"){
-    move_uploaded_file($tmp_name, "photos/$name");
+if( $type == "image/jpeg" || $type == "image/png"){
 
-    $table = new UsersTable(new MySQL);
-    $table->add([
-        "title" => $title,
-        "content" => $content,
-        "image" =>  $name,
-        "author_id" => $author_id, 
-    ]);
+    if(empty($title) || empty($content)){
 
-    HTTP::redirect("admin/index.php");
+        if(empty($title)){
+
+            HTTP::redirect("admin/create.php", "title=require");
+        }elseif(empty($content)){
+
+            HTTP::redirect("admin/create.php", "content=require");
+
+        }
+    }else {
+        move_uploaded_file($tmp_name, "photos/$name");
+
+        $table = new UsersTable(new MySQL);
+        $table->add([
+            "title" => $title,
+            "content" => $content,
+            "image" =>  $name,
+            "author_id" => $author_id, 
+        ]);
+
+        HTTP::redirect("admin/index.php");
+
+    }
 
 }else{
+
     HTTP::redirect("admin/create.php", "type=error");
 }

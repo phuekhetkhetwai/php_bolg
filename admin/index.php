@@ -24,9 +24,17 @@
 
     
     if(!empty($_GET["pageno"])){
-        $pageno = $_GET["pageno"];
+        if(isset($_POST["search"])) {
+            $pageno = 1;
+        }else{
+            $pageno = $_GET["pageno"];
+
+        }
+        
+
     }else{
         $pageno = 1;
+
     }
 
     $numofRecs = 3;
@@ -35,6 +43,7 @@
     $table = new UsersTable(new MySQL());
 
     if(isset($_POST["search"]) || isset($_COOKIE["search"])){
+
         $searchval = isset($_POST["search"]) ? $_POST["search"] : $_COOKIE["search"];
 
         $datas = $table->getBlogsBySearch($searchval);

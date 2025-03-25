@@ -14,10 +14,20 @@ $post_id = $_POST["id"];
 $author_id = $auth->id;
 
 $table = new UsersTable(new MySQL());
-$table->addComment([
-    "content" => $content,
-    "author_id" => $author_id,
-    "post_id" => $post_id
-]);
 
-HTTP::redirect("blogdetail.php" , "id=$post_id");
+if(empty($content)){
+
+    HTTP::redirect("blogdetail.php" , "id=$post_id&content=require");
+
+}else {
+
+    $table->addComment([
+        "content" => $content,
+        "author_id" => $author_id,
+        "post_id" => $post_id
+    ]);
+
+    HTTP::redirect("blogdetail.php" , "id=$post_id");
+
+}
+

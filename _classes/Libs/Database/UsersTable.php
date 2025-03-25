@@ -222,53 +222,6 @@ class UsersTable {
         }
     }
 
-    public function editUser ($id) {
-        try {
-            $statement = $this->db->prepare("SELECT * FROM users WHERE id=:id");
-            $statement->execute([
-                "id" => $id
-            ]);
-
-            $user = $statement->fetch();
-            
-            return $user;
-            
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            exit();
-        }
-    }
-
-    public function updateUser($data) {
-        try {
-
-            $id = $data["id"];
-
-            $statement = $this->db->prepare("SELECT * FROM users WHERE email=:email AND id!=:id");
-            $statement->execute([
-                "id" => $id,
-                "email" => $data["email"]
-            ]);
-
-            $user = $statement->fetch();
-
-            if(empty($user)){
-                $statement = $this->db->prepare("UPDATE users SET name=:name, email=:email WHERE id=:id");
-                $statement->execute($data);
-            
-                return $statement->rowCount();
-
-            }else{
-
-                HTTP::redirect("admin/user_edit.php", "id=$id&duplicated=email");
-            }
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            exit();
-        }
-    }
-
     public function deleteUser($id) {
         try {
             $statement = $this->db->prepare("DELETE FROM users WHERE id=:id");

@@ -50,11 +50,13 @@ if(!$auth|| $auth->role_id != 2) {
                         <form action="../_actions/add.php" method="post" enctype="multipart/form-data" class="px-3">
                             <div class="form-group my-3">
                                 <label for="title" class="fw-bold my-2">Title</label>
+                                <span class="text-danger"><?php echo isset($_GET["title"]) ? "* Title cannot be null" : "" ?></span>
                                 <input type="text" name="title" id="title" class="form-control" placeholder="Title...">
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="content" class="fw-bold my-2">Content</label>
+                                <span class="text-danger"><?php echo isset($_GET["content"]) ? "* Content cannot be null" : "" ?></span>
                                 <textarea type="text" name="content" id="content" class="form-control" rows="12" placeholder="Content..."></textarea>
                             </div>
 

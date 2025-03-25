@@ -14,12 +14,28 @@ if(!$auth|| $auth->role_id != 2) {
     exit();
 }
 
+$name = $_POST["name"];
+$email = $_POST["email"];
+$password = $_POST["password"];
+$path = "admin/user_create.php";
 
 $table = new UsersTable(new MySQL);
-$table->insert([
-    "name" => $_POST["name"],
-    "email" => $_POST["email"],
-    "password" => $_POST["password"],
-], "admin/user_create.php");
 
-HTTP::redirect("admin/user_lists.php", "create=success");
+if(empty($name) || empty($email) || empty($password) || strlen($password) < 6){
+    if(empty($name)) HTTP::redirect("admin/user_create.php", "name=require");
+
+    elseif(empty($email)) HTTP::redirect("admin/user_create.php", "email=require");
+
+    elseif(empty($password)) HTTP::redirect("admin/user_create.php", "password=require");
+
+    elseif(!empty($password) && strlen($password) < 6 ) HTTP::redirect("admin/user_create.php", "error=password");
+
+}else{
+    $table->insert([
+        "name" => $name,
+        "email" => $email,
+        "password" => $password,
+    ], $path);
+    
+    HTTP::redirect("admin/user_lists.php", "create=success");
+}

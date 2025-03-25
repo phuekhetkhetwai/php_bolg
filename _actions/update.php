@@ -28,23 +28,36 @@ $data = [
     "image" => $name
 ];
 
-if(empty($name)) {
-    $table = new UsersTable(new MySQL);
-    $table->update($data);
+$table = new UsersTable(new MySQL);
 
-    HTTP::redirect("admin/index.php");
+if(empty($title) || empty($content)){
 
+    if(empty($title)){
+
+        HTTP::redirect("admin/edit.php", "title=require&id=$id");
+    }elseif(empty($content)){
+
+        HTTP::redirect("admin/edit.php", "content=require&id=$id");
+
+    }
 }else{
-    if($type === "image/jpeg" || $type === "image/png"){
-        move_uploaded_file($tmp_name, "photos/$name");
+    if(empty($name)) {
 
-        $table = new UsersTable(new MySQL);
         $table->update($data);
-
+    
         HTTP::redirect("admin/index.php");
-
+    
     }else{
-
-        HTTP::redirect("admin/edit.php", "type=error&id=$id");
+        if($type === "image/jpeg" || $type === "image/png"){
+            move_uploaded_file($tmp_name, "photos/$name");
+    
+            $table->update($data);
+    
+            HTTP::redirect("admin/index.php");
+    
+        }else{
+    
+            HTTP::redirect("admin/edit.php", "type=error&id=$id");
+        }
     }
 }

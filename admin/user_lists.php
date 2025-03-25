@@ -25,7 +25,12 @@
       }
 
     if(!empty($_GET["pageno"])){
-        $pageno = $_GET["pageno"];
+        if(isset($_POST["search"])) {
+            $pageno = 1;
+        }else{
+            $pageno = $_GET["pageno"];
+
+        }
     }else{
         $pageno = 1;
     }
