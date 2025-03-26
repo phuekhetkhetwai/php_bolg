@@ -1,6 +1,7 @@
 <?php
 
 include "vendor/autoload.php";
+include "_actions/common.php";
 
 use Helpers\Auth;
 use Libs\Database\MySQL;
@@ -53,14 +54,14 @@ $comments = $table->getComment($_GET["id"]);
     <section class="container-fluid mt-3">
         <div class="col-lg-8 mx-auto">
             <div class="py-3">
-                    <h5 class="text-center text-uppercase"><?php echo $post->title?></h5>
+                    <h5 class="text-center text-uppercase"><?php echo escape($post->title)?></h5>
                     <hr>
                 
                 <div class="border-bottom" style="overflow-y: scroll;height: 430px;">
                     <div class="float-start me-3" style="width: 50%;">
                     <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" class="img-thumbnail" style="width: 100%;">
                     </div>
-                    <p style="line-height: 25px;"><?php echo $post->content ?></p>
+                    <p style="line-height: 25px;"><?php echo escape($post->content) ?></p>
                 </div>
             </div>
         </div>
@@ -78,8 +79,8 @@ $comments = $table->getComment($_GET["id"]);
                                 <a href="_actions/delete_comment.php?id=<?php echo $comment->id ?>&post=<?php echo $post->id ?>" class="btn-close float-end me-2"></a>
                             <?php endif ?>
                             
-                            <b class="text-dark h6 fw-bold"><?php echo empty($comment->name) ? "deleted user" : $comment->name ?></b> <span class="fw-bold">:</span>
-                            <?php echo $comment->content ?>
+                            <b class="text-dark h6 fw-bold"><?php echo empty($comment->name) ? "deleted user" : escape($comment->name) ?></b> <span class="fw-bold">:</span>
+                            <?php echo escape($comment->content) ?>
                             </li>
                         <?php endforeach ?>
 

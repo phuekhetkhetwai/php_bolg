@@ -1,5 +1,6 @@
 <?php
     include "../_actions/vendor/autoload.php";
+    include "../_actions/common.php";
 
     use Helpers\Auth;
     use Helpers\HTTP;
@@ -57,14 +58,14 @@
                             <div class="form-group my-3">
                                 <label for="title" class="fw-bold my-2">Title</label>
                                 <span class="text-danger"><?php echo isset($_GET["title"]) ? "* Title cannot be null" : "" ?></span>
-                                <input type="text" name="title" id="title" class="form-control" value="<?php echo $post->title ?>" placeholder="Title">
+                                <input type="text" name="title" id="title" class="form-control" value="<?php echo escape($post->title) ?>" placeholder="Title">
                             </div>
 
                             <div class="form-group my-3">
                                 <label for="content" class="fw-bold my-2">Content</label>
                                 <span class="text-danger"><?php echo isset($_GET["content"]) ? "* Content cannot be null" : "" ?></span>
 
-                                <textarea type="text" name="content" id="content" class="form-control" rows="7" placeholder="Content"><?php echo $post->content ?></textarea>
+                                <textarea type="text" name="content" id="content" class="form-control" rows="7" placeholder="Content"><?php echo escape($post->content) ?></textarea>
                             </div>
 
                             <div class="form-group my-3">

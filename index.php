@@ -1,6 +1,7 @@
 <?php
 
 include "vendor/autoload.php";
+include "_actions/common.php";
 
 use Helpers\Auth;
 use Libs\Database\MySQL;
@@ -48,7 +49,7 @@ $posts = $table->getBlogs();
                                         <li class="nav-item dropdown">
                                             <a href="javascript:void(0);" class="dropdown-toggle"
                                                 data-bs-toggle="dropdown">
-                                                <span class="me-2"><?php echo $auth->name ?></span>
+                                                <span class="me-2"><?php echo escape($auth->name) ?></span>
                                                 <img src="img/user.png" class="rounded-circle" width="25"
                                                     alt="user img">
                                             </a>
@@ -87,11 +88,11 @@ $posts = $table->getBlogs();
                     <div class="col-lg-4 col-md-6 mb-5">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title text-center"><?php echo $post->title?></h5>
+                                <h5 class="card-title text-center"><?php echo escape($post->title) ?></h5>
                             </div>
                             <div class="card-body">
                                 <img src="_actions/photos/<?php echo $post->image ?>" alt="<?php echo $post->image ?>" style="width: 100%;height: 250px">
-                                <p class="my-3" style="width: 100%;height: 60px"><?php echo strlen($post->content) > 100 ? substr($post->content,0 , 100) . " ..." : $post->content ?></p>
+                                <p class="my-3" style="width: 100%;height: 60px"><?php echo strlen($post->content) > 100 ? escape(substr($post->content,0 , 100)) . " ..." : escape($post->content) ?></p>
                             </div>
                             <div class="card-footer">
                                 <a href="blogdetail.php?id=<?=$post->id?>" class="nav-link text-primary">show more >>></a>

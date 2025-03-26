@@ -1,5 +1,6 @@
 <?php
     include "../_actions/vendor/autoload.php";
+    include "../_actions/common.php";
 
     use Helpers\HTTP;
     use Helpers\Auth;
@@ -201,8 +202,8 @@
                                         <tr>
                                             <td></td>
                                             <td><?php echo ++$id ?>.</td>
-                                            <td><?php echo $user->name ?></td>
-                                            <td><?php echo $user->email ?></td>
+                                            <td><?php echo escape($user->name) ?></td>
+                                            <td><?php echo escape($user->email) ?></td>
                                             <td>
                                                 <?php if($user->role_id == 2) :?>
                                                     <div class="badge bg-success rounded-0"><?php echo $user->role ?></div>

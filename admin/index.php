@@ -1,5 +1,6 @@
 <?php
     include "../_actions/vendor/autoload.php";
+    include "../_actions/common.php";
 
     use Helpers\HTTP;
     use Helpers\Auth;
@@ -190,8 +191,8 @@
                                     <?php foreach($datas as $data): ?>
                                         <tr>
                                             <td><?php echo ++$id ?>.</td>
-                                            <td><?php echo $data->title ?></td>
-                                            <td><?php echo strlen($data->content) > 100 ? substr($data->content,0 , 100) . " ..." : $data->content ?></td>
+                                            <td><?php echo escape($data->title) ?></td>
+                                            <td><?php echo strlen($data->content) > 100 ? escape(substr($data->content,0 , 100)) . " ..." : escape($data->content) ?></td>
                                             <td><a href="../_actions/photos/<?php echo $data->image ?>"><i class="fa-solid fa-image me-2 text-dark"></i><?php echo $data->image ?></a></td>
                                             <td>
                                                 <a href="edit.php?id=<?php echo $data->id ?>"><i class="fa-solid fa-pen"></i></a>
@@ -247,32 +248,6 @@
         </div>
     </footer>
     <!-- End Footer Section -->
-
-    
-    <!-- Start Modal Area -->
-    <div id="quicksearchmodal" class="modal fade">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title">Result</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="javascript:void(0);">WDF 1001</a></li>
-                        <li class="list-group-item"><a href="javascript:void(0);">WDF 1002</a></li>
-                        <li class="list-group-item"><a href="javascript:void(0);">WDF 1003</a></li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    
-                </div>
-            </div>
-            
-        </div>
-
-    </div>
-    <!-- End Modal Area -->
 
     <!-- bootstrap css1 js1 -->
     <script src="../dist/js/bootstrap.bundle.min.js"></script>
