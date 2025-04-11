@@ -1,3 +1,7 @@
+<?php
+session_start();
+include "_actions/token.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +59,7 @@
             <h3 class="text-center">User Login</h3>
             <div class="d-flex justify-content-center">
                 <form action="_actions/user_login.php" method="post" class="m-3 shadow forms">
+                    <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                     <div class="form-group my-3 pt-2">
                         <label for="email" class="mb-3"><i class="fa-solid fa-envelope mx-2"></i>Email</label>
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email...">

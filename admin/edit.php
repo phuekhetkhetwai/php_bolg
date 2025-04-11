@@ -1,5 +1,6 @@
 <?php
     include "../_actions/vendor/autoload.php";
+    include "../_actions/token.php";
     include "../_actions/common.php";
 
     use Helpers\Auth;
@@ -54,6 +55,7 @@
                         <?php endif ?>
 
                         <form action="../_actions/update.php" method="post" enctype="multipart/form-data" class="px-3">
+                        <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                             <input type="hidden" name="id" value="<?php echo $post->id ?>">
                             <div class="form-group my-3">
                                 <label for="title" class="fw-bold my-2">Title</label>

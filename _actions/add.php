@@ -1,6 +1,8 @@
 <?php
+session_start();
 
 include "vendor/autoload.php";
+include "token.php";
 
 use Helpers\HTTP;
 use Helpers\Auth;

@@ -1,3 +1,7 @@
+<?php
+session_start();
+include "_actions/token.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,6 +55,7 @@
             <?php endif ?>
             <h3 class="text-center">Register</h3>
             <form action="_actions/register.php" method="post" class="forms shadow m-4">
+                <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                 <div class="form-group mb-3">
                     <label for="name" class="mb-3"><i class="fa-solid fa-user mx-2"></i>Name</label>
                     <span class="text-danger"><?php echo isset($_GET["name"]) ? "* Name cannot be null" : "" ?></span>

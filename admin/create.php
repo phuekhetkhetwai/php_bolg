@@ -1,5 +1,6 @@
 <?php
 include "../_actions/vendor/autoload.php";
+include "../_actions/token.php";
 
 use Helpers\Auth;
 use Helpers\HTTP;
@@ -48,6 +49,7 @@ if(!$auth|| $auth->role_id != 2) {
                             </div>
                         <?php endif ?>
                         <form action="../_actions/add.php" method="post" enctype="multipart/form-data" class="px-3">
+                        <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                             <div class="form-group my-3">
                                 <label for="title" class="fw-bold my-2">Title</label>
                                 <span class="text-danger"><?php echo isset($_GET["title"]) ? "* Title cannot be null" : "" ?></span>

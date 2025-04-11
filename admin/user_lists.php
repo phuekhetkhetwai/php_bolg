@@ -112,6 +112,8 @@
                                 <div class="navbar navbar-expand navbar-light bg-white shadow">
                                     <!-- start quick search -->
                                     <form action="" method="post" class="me-auto">
+                                        <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
+
                                         <div class="input-group">
                                             <input type="text" name="search" id="search"
                                                 class="form-control border-0 shadow-none"

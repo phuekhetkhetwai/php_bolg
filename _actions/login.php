@@ -1,6 +1,11 @@
 <?php
 
 include "vendor/autoload.php";
+// include "common.php";
+
+// echo $_POST["_token"];
+// echo $_SESSION["_token"];
+// exit();
 
 use Helpers\HTTP;
 use Libs\Database\MySQL;

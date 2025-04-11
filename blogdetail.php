@@ -1,7 +1,9 @@
 <?php
 
 include "vendor/autoload.php";
+include "_actions/token.php";
 include "_actions/common.php";
+
 
 use Helpers\Auth;
 use Libs\Database\MySQL;
@@ -90,6 +92,7 @@ $comments = $table->getComment($_GET["id"]);
             
             <form action="_actions/add_comment.php" method="post" class="mt-2">
                 <input type="hidden" name="id" value="<?php echo $post->id ?>">
+                <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'] ?>">
                 <div class="input-group">
                     <input type="text" name="content" id="content" class="form-control shadow-none" placeholder="<?php echo isset($_GET["content"]) ? "* comment cannot be null" : "Your comment..." ?>">
                     <div class="input-group-append">

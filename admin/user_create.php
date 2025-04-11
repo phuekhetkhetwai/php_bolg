@@ -1,5 +1,6 @@
 <?php
 include "../_actions/vendor/autoload.php";
+include "../_actions/token.php";
 
 use Helpers\Auth;
 use Helpers\HTTP;
@@ -38,7 +39,7 @@ if(!$auth|| $auth->role_id != 2) {
 </head>
 <body>
     <div class="container-fluid vh-100" style="background-color: rgba(225,225,225,0.2);">
-        <div class="col-md-5 mx-auto" style="padding-top: 100px;">
+        <div class="col-lg-5 col-md-7 mx-auto" style="padding-top: 100px;">
             <div class="card p-3">
                 <div class="card-body">
                     <h5 class="text-primary ms-3 py-2"><i class="fa-solid fa-user-pen me-2"></i>Add User</h5>
@@ -49,6 +50,8 @@ if(!$auth|| $auth->role_id != 2) {
                             </div>
                         <?php endif ?>
                     <form action="../_actions/user_add.php" method="post" class="px-3">
+                        <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
+
                         <div class="form-group my-3">
                             <label for="name" class="fw-bold my-2">Name</label>
                             <span class="text-danger"><?php echo isset($_GET["name"]) ? "* Name cannot be null" : "" ?></span>
