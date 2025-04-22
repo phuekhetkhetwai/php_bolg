@@ -1,6 +1,6 @@
 <?php
 
-include "vendor/autoload.php";
+include "../vendor/autoload.php";
 // include "common.php";
 
 // echo $_POST["_token"];

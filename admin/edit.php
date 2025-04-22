@@ -1,5 +1,5 @@
 <?php
-    include "../_actions/vendor/autoload.php";
+    include "../vendor/autoload.php";
     include "../_actions/token.php";
     include "../_actions/common.php";
 

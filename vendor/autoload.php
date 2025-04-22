@@ -2,5 +2,5 @@
 
 spl_autoload_register(function($class){
     $class = str_replace("\\","/",$class);
-    include("_classes/$class.php");
+    include __DIR__ . ("/../_classes/$class.php");
 });
